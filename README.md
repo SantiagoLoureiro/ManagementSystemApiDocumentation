@@ -5,8 +5,6 @@
 ```
 Url : /auth/login  method: POST  
 
-Header with authentication is needed
-
 request: 
 
 {
@@ -67,7 +65,7 @@ Response:
 | ------------- |:-------------:|
 | variant_code      | easycommerce variant code      |
 | stock      | single stock of variant     |
-| channel      | price associated with the channel to which it updates     |
+| channel_pricing      | price associated with the channel to which it updates     |
 | weight      | variant weight     |
 
 
