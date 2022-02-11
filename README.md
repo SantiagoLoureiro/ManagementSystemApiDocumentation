@@ -3,7 +3,7 @@
 ## Authentication
 
 ```
-Url : /auth/login  method: POST  
+Url : /api-token-auth/  method: POST  
 
 request: 
 
@@ -31,94 +31,285 @@ Header for endpoint with authentication
 | username      | easycommerce user      |
 | password      | easycommerce password     |
 
+## -----------------VARIANTS-----------------
 
 
-
-## Get Variants
+## Get One Variant
 
 ```
-Url : /variant/get-variants  method: GET  
+Url : service/variants  method: GET  
 
 Header with authentication is needed
 
 request: 
 
     {
-        variant_code: String = Null
+        "variant_id": String
     }
 
 Response: 
 
-    {
-        "variant_code": String,
-        "stock": Int,
-        "channel_pricing" : array [
-                price: Float,
-                code: String
+    [
+        {
+            "width": Integer,
+            "product_id": String,
+            "tax_category_id": String,
+            "shipping_category_id": String,
+            "code": String,
+            "position": Integer,
+            "on_hold": Integer,
+            "on_hand": Integer,
+            "tracked": Boolean,
+            "height": Integer,
+            "depth": Integer,
+            "weight": Integer,
+            "shipping_required": Boolean,
+            "volume": Integer,
+            "enabled": Boolean,
+            "minimumAmount": Integer,
+            "maximumAmount": Integer,
+            "channel_pricing": Array [
+                {
+                    "price": Integer,
+                    "original_price": Integer,
+                    "channel_code": String,
+                    "finalConsumerPrice": Integer,
+                    "originalFinalConsumerPrice": Integer
+                }
             ]
-        "weight": Float 
-    }
+        }
+    ]
 
 ```
 
-| Field  | Description |
-| ------------- |:-------------:|
-| variant_code      | easycommerce variant code      |
-| stock      | single stock of variant     |
-| channel_pricing      | price associated with the channel to which it updates     |
-| weight      | variant weight     |
+| Field           |                       Description                        |
+|-----------------|:--------------------------------------------------------:|
+| code    |                easycommerce variant code                 |
+| on_hand         |                 single stock of variant                  |
+| channel_pricing |  price associated with the channel to which it updates   |
 
 
-## Variant update
+
+## get all variants
 
 ```
-Url : /variant/update  method: POST  
+Url : service/variant/  method: GET  
 
 Header with authentication is needed
 
 request: 
 
-{
-    "variant_code": String,
-    "stock": Int = Null,
-    "channel_pricing" : array [
-            price: Float,
-            code: String
-        ] = Null
-    "weight": Float = Null
-}
-
-```
-
-| Field  | Description |
-| ------------- |:-------------:|
-| variant_code      | easycommerce variant code      |
-| stock      | single stock of variant     |
-| channel_pricing      | price associated with the channel to which it updates     |
-| weight      | variant weight     |
-
-## Set WebHook Orders
-```
-Url : /orders/set-webhook  method: POST  
-
-Header with authentication is needed
-
-request: 
-
-{
-    "url": String ,
-}
-
-response: Status code 200 is OK
-{
+    None
     
-}
+response:
+[
+        {
+            "width": Integer,
+            "product_id": String,
+            "tax_category_id": String,
+            "shipping_category_id": String,
+            "code": String,
+            "position": Integer,
+            "on_hold": Integer,
+            "on_hand": Integer,
+            "tracked": Boolean,
+            "height": Integer,
+            "depth": Integer,
+            "weight": Integer,
+            "shipping_required": Boolean,
+            "volume": Integer,
+            "enabled": Boolean,
+            "minimumAmount": Integer,
+            "maximumAmount": Integer,
+            "channel_pricing": Array [
+                {
+                    "price": Integer,
+                    "original_price": Integer,
+                    "channel_code": String,
+                    "finalConsumerPrice": Integer,
+                    "originalFinalConsumerPrice": Integer
+                }
+            ]
+        }
+    ]
+    
 ```
+
+| Field           |                       Description                        |
+|-----------------|:--------------------------------------------------------:|
+| code    |                easycommerce variant code                 |
+| on_hand         |                 single stock of variant                  |
+| channel_pricing |  price associated with the channel to which it updates   |
+| weight          |                      variant weight                      |
+
+## Update variant
+
+```
+Url : service/variant/  method: PUT  
+
+Header with authentication is needed
+
+request: 
+
+    [
+        {
+            "variant_id": String,
+            "width": Integer = None,
+            "product_id": String = None,
+            "tax_category_id": String = None,
+            "shipping_category_id": String = None,
+            "position": Integer = None,
+            "on_hold": Integer = None,
+            "on_hand": Integer = None,
+            "tracked": Boolean = None,
+            "height": Integer = None,
+            "depth": Integer = None,
+            "weight": Integer = None,
+            "shipping_required": Boolean = None,
+            "volume": Integer = None,
+            "enabled": Boolean = None,
+            "minimumAmount": Integer = None,
+            "maximumAmount": Integer = None,
+        },
+        {
+            "variant_id": String,
+            "width": Integer = None,
+            "product_id": String = None,
+            "tax_category_id": String = None,
+            "shipping_category_id": String = None,
+            "position": Integer = None,
+            "on_hold": Integer = None,
+            "on_hand": Integer = None,
+            "tracked": Boolean = None,
+            "height": Integer = None,
+            "depth": Integer = None,
+            "weight": Integer = None,
+            "shipping_required": Boolean = None,
+            "volume": Integer = None,
+            "enabled": Boolean = None,
+            "minimumAmount": Integer = None,
+            "maximumAmount": Integer = None,
+        }.
+        ...
+    ]
+    
+response:
+
+    
+```
+
+| Field           |                       Description                        |
+|-----------------|:--------------------------------------------------------:|
+| variant_id    |                easycommerce variant code                 |
+| on_hand         |                 single stock of variant                  |
+| weight          |                      variant weight                      |
+
+
+## ---------- CHANNEL PRICING VARIANTS ----------
+
+## Get all channels in Easycommerce
+
+```
+Url : service/channel-pricing  method: GET  
+
+Header with authentication is needed
+
+request: 
+
+    None
+    
+response:
+  [
+    {
+        "code": String
+    }, ...
+]
+
+
+  
+```
+
+
+| Field                |        Description        |
+|----------------------|:-------------------------:|
+| code                 |   code name of channel    |
+|
+
+## Get Channel Pricing by variant
+
+```
+Url : service/channel-pricing  method: GET  
+
+Header with authentication is needed
+
+request: 
+
+    {
+        "variant_id": String
+    }
+    
+response:
+     [
+        {
+            "price": Integer,
+            "original_price": Integer,
+            "channel_code": String,
+        }, ...
+    ]
+
+
+  
+```
+
+
+| Field |            Description            |
+|-------|:---------------------------------:|
+| price | price for this variant in channel |
+| original_price |      price without discount       |
+| channel_code |           channel code            |
+|
+
+## Edit Channel Pricing by variant
+
+```
+Url : service/channel-pricing  method: PUT  
+
+Header with authentication is needed
+
+request: 
+
+    [
+        {
+            "variant_id": String,
+            "channel_code": String,
+            "price": Integer,
+            "original_price": Integer
+        }, ...
+    ]
+    
+response:  Status code 200
+     
+
+
+  
+```
+
+
+| Field |            Description            |
+|-------|:---------------------------------:|
+| price | price for this variant in channel |
+| original_price |      price without discount       |
+| channel_code |           channel code            |
+|
+
+
+
+## -- ORDERS --
 
 ## Get Orders
 
 ```
-Url : /orders/generate-orders  method: POST  
+Url : /orders  method: GET  
 
 Header with authentication is needed
 
@@ -127,7 +318,7 @@ request:
 {
     "date_from": Datetime = Null,
     "date_to": Datetime = Null,
-    "order_id": String
+    "order_id": String = Null
 }
 
 response: 
@@ -188,32 +379,21 @@ response:
 | order_id      | easycommerce order id    |
 
 
-## Get Orders IDS
 
+## Set WebHook Orders
 ```
-Url : /orders/generate-orders/ids  method: POST  
+Url : /orders/set-webhook  method: POST  
 
 Header with authentication is needed
 
 request: 
 
 {
-    "date_from": Datetime = Null,
-    "date_to": Datetime = Null,
-    "order_id": String
+    "url": String ,
 }
 
-response
-
+response: Status code 200 is OK
 {
-    ids: Array [String]
+    
 }
-
 ```
-
-| Field  | Description |
-| ------------- |:-------------:|
-| date_from      | order start date       |
-| date_to      | order end date     |
-| order_id      | easycommerce order id    |
-
